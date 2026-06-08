@@ -32,7 +32,11 @@
     }
 
     .hero-two-col__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
+        text-align: center;
     }
 
     .hero-two-col__code {

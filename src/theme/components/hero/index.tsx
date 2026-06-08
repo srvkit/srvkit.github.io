@@ -1,3 +1,5 @@
+import "@rspress/core/dist/theme/components/HomeHero/index.css";
+
 import "./index.css";
 
 import type { Hero } from "@rspress/core";
