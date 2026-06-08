@@ -1,0 +1,37 @@
+[
+    {
+        "type": "file",
+        "name": "introduction",
+        "label": "Introduction"
+    },
+    {
+        "type": "file",
+        "name": "features",
+        "label": "Features"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "file",
+        "name": "installation",
+        "label": "Installation"
+    },
+    {
+        "type": "custom-link",
+        "label": "Setup",
+        "collapsed": true,
+        "items": [
+            {
+                "type": "custom-link",
+                "link": "docs/setup/vite",
+                "label": "Vite"
+            },
+            {
+                "type": "custom-link",
+                "link": "docs/setup/rsbuild",
+                "label": "Rsbuild"
+            }
+        ]
+    }
+]

@@ -1,0 +1,34 @@
+import { PackageManagerTabs } from "@rspress/core/theme";
+
+# Rsbuild
+
+srvkit can be used with Rsbuild as a plugin.
+
+## Installation
+
+Install this package as a dev dependency in the project:
+
+<PackageManagerTabs
+    command={{
+        npm: "npm i -D @srvkit/rsbuild",
+        yarn: "yarn add -D @srvkit/rsbuild",
+        pnpm: "pnpm add -D @srvkit/rsbuild",
+        bun: "bun add -D @srvkit/rsbuild",
+    }}
+/>
+
+## Configuration
+
+Add the following code:
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+
+import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
+
+export default defineConfig({
+    plugins: [
+        pluginSrvkit(),
+    ],
+});
+```

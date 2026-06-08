@@ -1,0 +1,34 @@
+import { PackageManagerTabs } from "@rspress/core/theme";
+
+# Vite
+
+srvkit can be used with Vite as a plugin.
+
+## Installation
+
+Install this package as a dev dependency in the project:
+
+<PackageManagerTabs
+    command={{
+        npm: "npm i -D @srvkit/vite",
+        yarn: "yarn add -D @srvkit/vite",
+        pnpm: "pnpm add -D @srvkit/vite",
+        bun: "bun add -D @srvkit/vite",
+    }}
+/>
+
+## Configuration
+
+Add the following Vite configuration:
+
+```js title="vite.config.js"
+import { defineConfig } from "vite";
+
+import { srvkit } from "@srvkit/vite/plugin";
+
+export default defineConfig({
+    plugins: [
+        srvkit(),
+    ],
+});
+```
