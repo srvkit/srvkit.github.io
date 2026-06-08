@@ -1,0 +1,41 @@
+.rp-home-hero__tagline {
+    margin-bottom: 16px;
+}
+
+.hero-two-col {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    width: 100%;
+    max-width: 1152px;
+    padding: 96px 24px;
+    margin: 0 auto;
+}
+
+.hero-two-col__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.hero-two-col__code {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .hero-two-col {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 48px 16px 32px;
+    }
+
+    .hero-two-col__text {
+        width: 100%;
+    }
+
+    .hero-two-col__code {
+        width: 100%;
+    }
+}

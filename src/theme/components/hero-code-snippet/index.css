@@ -1,0 +1,74 @@
+.hero-code-snippet {
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow:
+        0 20px 60px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+:where(html:not(.rp-dark)) .hero-code-snippet {
+    background: #1e1e2e;
+    box-shadow:
+        0 20px 60px -12px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.hero-code-header {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hero-code-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.hero-code-filename {
+    margin-left: auto;
+    font-family: var(--rp-code-font-family, monospace);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-code-body {
+    padding: 16px 20px;
+    margin: 0;
+    overflow-x: auto;
+    font-family: var(--rp-code-font-family, monospace);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: #cdd6f4;
+    background: transparent;
+}
+
+.hero-code-body .hl-keyword {
+    color: #cba6f7;
+}
+
+.hero-code-body .hl-string {
+    color: #a6e3a1;
+}
+
+.hero-code-body .hl-fn {
+    color: #89b4fa;
+}
+
+.hero-code-body .hl-param {
+    color: #cdd6f4;
+}
+
+.hero-code-body .hl-type {
+    color: #f9e2af;
+}
+
+.hero-code-body .hl-number {
+    color: #fab387;
+}
