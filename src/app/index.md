@@ -3,26 +3,37 @@ pageType: home
 
 hero:
     name: srvkit
-    text: A toolkit for building JavaScript server applications
-    tagline: Agnostic, flexible, and extensible.
+    tagline: A toolkit for building JavaScript server applications
     actions:
         - theme: brand
           text: Quick Start
           link: /docs/installation
-    image:
-        src: /icon.png
-        alt: Logo
+        - theme: alt
+          text: GitHub
+          link: https://github.com/srvkit/srvkit
 
 features:
     - icon: 🌍
       title: Runtime agnostic
-      details: It works on Node.js, Deno, Bun, and more.
+      details: Powered by srvx — write once and run on Node.js, Deno, Bun, Cloudflare Workers, and more.
 
     - icon: 🧩
-      title: Seamlessly integration
-      details: It works with most popular frameworks out of the box.
+      title: Vite & Rsbuild plugins
+      details: Drop-in plugins for Vite and Rsbuild — add to your config and start building.
 
-    - icon: ⚡️
-      title: Ecosystem compatibility
-      details: It accpet srvx plugins, and works with Vite, Rsbuild as well.
+    - icon: 🔥
+      title: Live dev server
+      details: Hot-reloading dev server that updates on file changes without restarting.
+
+    - icon: 📦
+      title: Flexible build targets
+      details: Build as a standalone server or serverless handler, with external or bundled dependencies.
+
+    - icon: 🛡️
+      title: Type-safe API
+      details: Full TypeScript support with defineServer(), Web API Request and Response types.
+
+    - icon: 🔗
+      title: HTTPS & middleware
+      details: Built-in HTTPS support, middleware chain, and error handling out of the box.
 ---
