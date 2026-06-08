@@ -1,0 +1,19 @@
+# Introduction
+
+## The Problem
+
+Writing a server handler is easy. Everything around it is not.
+
+Without a bundler, there is no code transform, no way to produce a standalone executable or a serverless handler. You need a build tool — but wiring a backend into one means writing plugin logic, configuring dev server restarts, and figuring out how to output something that actually runs in production.
+
+And that is before you consider runtimes. Node.js, Deno, Bun, Cloudflare Workers — each has its own server API, its own startup conventions, its own way to handle TLS. Switching runtimes means rewriting that layer. Targeting both a standalone server and a serverless platform means maintaining two configurations. The handler itself does not change, but the scaffolding around it does every time.
+
+Starting a backend project with good developer experience should not require assembling this from scratch every time.
+
+## Why srvkit
+
+srvkit was created to fill that position — a toolkit that gives backend development the same ergonomics that Vite and Rsbuild brought to the frontend.
+
+Built on top of [srvx](https://srvx.h3.dev), it uses the Web API — `Request` and `Response` — as the contract between your code and the runtime. Drop-in plugins for Vite and Rsbuild handle the rest: dev server with live reload, production builds with bundling, HTTPS support, and middleware — all from a single `defineServer()` call.
+
+One handler. Any runtime. Any build target.
