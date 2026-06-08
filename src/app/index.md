@@ -8,6 +8,9 @@ hero:
         - theme: brand
           text: Quick Start
           link: /docs/installation
+        - theme: alt
+          text: But Why?
+          link: /docs/introduction
     image:
         src: /icon.png
         alt: Logo
