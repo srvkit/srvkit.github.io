@@ -1,3 +1,5 @@
+import { Tabs, Tab } from "@rspress/core/theme";
+
 # Runtimes
 
 srvkit is built on [srvx](https://srvx.h3.dev), which provides a universal `serve()` abstraction over the Web API `Request`/`Response` interface. Your server handler works across runtimes without changes — srvkit adapts the module resolution and build output to match each target.
@@ -8,7 +10,10 @@ The runtime option sets the bundler's [resolve conditions](https://nodejs.org/ap
 
 Use the `runtime` option in your plugin configuration:
 
-```ts title="Vite"
+<Tabs>
+    
+<Tab label="Vite">
+```ts title="vite.config.ts"
 import { defineConfig } from "vite";
 import { srvkit } from "@srvkit/vite/plugin";
 
@@ -20,8 +25,10 @@ export default defineConfig({
     ],
 });
 ```
-
-```ts title="Rsbuild"
+</Tab>
+    
+<Tab label="Rsbuild">
+```ts title="rsbuild.config.ts"
 import { defineConfig } from "@rsbuild/core";
 import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
 
@@ -33,6 +40,9 @@ export default defineConfig({
     ],
 });
 ```
+</Tab>
+
+</Tabs>
 
 The default runtime is `"node"`.
 

@@ -1,3 +1,5 @@
+import { Tabs, Tab } from "@rspress/core/theme";
+
 # Server
 
 The server handler is the core of every srvkit application. It is defined using `defineServer` — a function that accepts a `ServerOptions` object and returns it as-is, providing type safety and a clear entry point for your server.
@@ -6,6 +8,11 @@ The server handler is the core of every srvkit application. It is defined using 
 
 `defineServer` is an identity function. It does not transform your options — it exists to give you type checking and a consistent convention for defining your server entry.
 
+> For Rsbuild, replace `@srvkit/vite` with `@srvkit/rsbuild`.
+
+<Tabs>
+    
+<Tab label="Vite">
 ```ts title="src/index.ts"
 import { defineServer } from "@srvkit/vite";
 
@@ -15,13 +22,9 @@ export default defineServer({
     },
 });
 ```
-
-The default export is required. srvkit's plugin resolves your entry file and expects `defineServer` to be the default export.
-
-### With Rsbuild
-
-Replace `@srvkit/vite` with `@srvkit/rsbuild`:
-
+</Tab>
+    
+<Tab label="Rsbuild">
 ```ts title="src/index.ts"
 import { defineServer } from "@srvkit/rsbuild";
 
@@ -31,6 +34,11 @@ export default defineServer({
     },
 });
 ```
+</Tab>
+
+</Tabs>
+
+The default export is required. srvkit's plugin resolves your entry file and expects `defineServer` to be the default export.
 
 ## Fetch
 
