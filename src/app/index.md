@@ -3,14 +3,15 @@ pageType: home
 
 hero:
     name: srvkit
-    tagline: A toolkit for building JavaScript server applications
+    text: A toolkit for building JavaScript server applications
+    tagline: Agnostic, flexible, and extensible.
     actions:
         - theme: brand
           text: Quick Start
           link: /docs/installation
-        - theme: alt
-          text: GitHub
-          link: https://github.com/srvkit/srvkit
+    image:
+        src: /icon.png
+        alt: Logo
 
 features:
     - icon: 🌍
