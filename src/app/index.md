@@ -31,8 +31,8 @@ features:
       details: Build as a standalone server or serverless handler, with external or bundled dependencies.
 
     - icon: 🛡️
-      title: Type-safe API
-      details: Full TypeScript support with defineServer(), Web API Request and Response types.
+      title: Framework agnostic
+      details: Built on standard Web APIs — Request, Response, and no vendor lock-in to any server framework.
 
     - icon: 🔗
       title: HTTPS & middleware
