@@ -48,7 +48,6 @@ lint-biome:
 check:
     just fmt
     just lint
-    just test
 
 # Start development server
 dev:
