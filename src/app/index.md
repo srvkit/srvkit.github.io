@@ -30,7 +30,7 @@ features:
       title: Flexible build targets
       details: Build as a standalone server or serverless handler, with external or bundled dependencies.
 
-    - icon: 🛡️
+    - icon: 🔌
       title: Framework agnostic
       details: Built on standard Web APIs — Request, Response, and no vendor lock-in to any server framework.
 
