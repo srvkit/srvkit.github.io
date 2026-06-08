@@ -88,6 +88,8 @@ app.get("/api/hello", (c): Response => {
 export default app;
 ```
 
+Hono exposes a `fetch` method that matches the `ServerHandler` signature, so the Hono instance satisfies `ServerOptions` when used as the default export. You do not need to wrap it with `defineServer`.
+
 ## Error
 
 The `error` handler is called when your `fetch` handler throws an unhandled error. It receives the error and returns a `Response`.

@@ -24,6 +24,20 @@ rsbuild build
 
 This produces an output file in `./dist/index.js` by default.
 
+## Entry file
+
+By default, srvkit looks for the entry file at `./src/index.ts`, falling back to `./src/index.js` if the TypeScript file does not exist. You can override this with the `entry` option:
+
+```ts
+srvkit({
+    entry: "./src/server.ts",
+});
+```
+
+## Output format
+
+The output format is determined by your `package.json`. If `"type": "module"` is set, the output is ESM; otherwise, it is CommonJS.
+
 ## Build targets
 
 srvkit supports two build targets, controlled by `build.target`.

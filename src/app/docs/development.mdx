@@ -1,3 +1,5 @@
+import { Tab, Tabs } from "@rspress/core/theme";
+
 # Development
 
 srvkit provides a live-reloading dev server that updates in place when your files change. There is no restart — the `fetch`, `error`, and `middleware` handlers are swapped without dropping connections.
@@ -6,29 +8,78 @@ srvkit provides a live-reloading dev server that updates in place when your file
 
 When you run the dev command for your build tool, srvkit starts a development server:
 
-```bash title="Vite"
-npx vite dev
+<Tabs>
+    
+<Tab label="Vite">
+```sh
+vite dev
 ```
+</Tab>
+    
+<Tab label="Rsbuild">
+```sh
+rsbuild dev
+```
+</Tab>
 
-```bash title="Rsbuild"
-npx rsbuild dev
-```
+</Tabs>
 
 The server starts on `localhost:3001` by default and watches your entry file for changes.
+
+## Entry file
+
+By default, srvkit looks for the entry file at `./src/index.ts`, falling back to `./src/index.js` if the TypeScript file does not exist. You can override this with the `entry` option:
+
+<Tabs>
+    
+<Tab label="Vite">
+```ts title="vite.config.ts"
+import { defineConfig } from "vite";
+import { srvkit } from "@srvkit/vite/plugin";
+
+export default defineConfig({
+    plugins: [
+        srvkit({
+            entry: "./src/server.ts",
+        }),
+    ],
+});
+```
+</Tab>
+    
+<Tab label="Rsbuild">
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
+
+export default defineConfig({
+    plugins: [
+        pluginSrvkit({
+            entry: "./src/server.ts",
+        }),
+    ],
+});
+```
+</Tab>
+
+</Tabs>
 
 ## How live reload works
 
 On startup, srvkit reads the default export from your entry file and starts serving requests through the `fetch` handler.
 
-When a file change is detected, the module is re-imported. The new `ServerOptions` are passed to the live server's `update` method, which swaps the `fetch`, `error`, and `middleware` handlers in place. In-flight requests continue on the old handler — no connections are dropped.
+When a file change is detected, the module is re-imported. The new options are passed to the live server, which swaps the handlers in place. In-flight requests continue on the old handler — no connections are dropped.
 
-There is no WebSocket or browser reload involved. The server itself stays running and picks up the new handlers immediately.
+If a module reload fails (for example, due to a syntax error), srvkit keeps serving the previous working handler so your dev server remains responsive. The Vite plugin retries failed reloads up to three times with increasing backoff.
 
 ## Configuration
 
 Dev server options are set through the plugin configuration:
 
-```ts title="vite.config.js"
+<Tabs>
+    
+<Tab label="Vite">
+```ts title="vite.config.ts"
 import { defineConfig } from "vite";
 import { srvkit } from "@srvkit/vite/plugin";
 
@@ -43,7 +94,9 @@ export default defineConfig({
     ],
 });
 ```
-
+</Tab>
+    
+<Tab label="Rsbuild">
 ```ts title="rsbuild.config.ts"
 import { defineConfig } from "@rsbuild/core";
 import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
@@ -59,6 +112,9 @@ export default defineConfig({
     ],
 });
 ```
+</Tab>
+
+</Tabs>
 
 ### dev.host
 
@@ -73,7 +129,7 @@ The port the dev server listens on. Defaults to `3001`.
 ```ts
 srvkit({
     dev: {
-        port: 8080,
+        port: 4001,
     },
 });
 ```

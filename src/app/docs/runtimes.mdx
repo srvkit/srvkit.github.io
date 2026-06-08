@@ -2,6 +2,8 @@
 
 srvkit is built on [srvx](https://srvx.h3.dev), which provides a universal `serve()` abstraction over the Web API `Request`/`Response` interface. Your server handler works across runtimes without changes — srvkit adapts the module resolution and build output to match each target.
 
+The runtime option sets the bundler's [resolve conditions](https://nodejs.org/api/packages.html#conditional-exports) to match the target environment, ensuring the correct conditional exports from your dependencies are used. For the `workerd` runtime, the bundler target is also set to `webworker` instead of `node`.
+
 ## Setting the runtime
 
 Use the `runtime` option in your plugin configuration:
