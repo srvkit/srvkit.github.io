@@ -1,0 +1,180 @@
+# Server
+
+The server handler is the core of every srvkit application. It is defined using `defineServer` — a function that accepts a `ServerOptions` object and returns it as-is, providing type safety and a clear entry point for your server.
+
+## Define Server
+
+`defineServer` is an identity function. It does not transform your options — it exists to give you type checking and a consistent convention for defining your server entry.
+
+```ts title="src/index.ts"
+import { defineServer } from "@srvkit/vite";
+
+export default defineServer({
+    fetch: (req: Request): Response => {
+        return new Response("Hello, World!");
+    },
+});
+```
+
+The default export is required. srvkit's plugin resolves your entry file and expects `defineServer` to be the default export.
+
+### With Rsbuild
+
+Replace `@srvkit/vite` with `@srvkit/rsbuild`:
+
+```ts title="src/index.ts"
+import { defineServer } from "@srvkit/rsbuild";
+
+export default defineServer({
+    fetch: (req: Request): Response => {
+        return new Response("Hello, World!");
+    },
+});
+```
+
+## Fetch
+
+The `fetch` handler receives a standard Web API `Request` and returns a `Response` (or a promise of one). This is the same interface used by the Fetch API and serverless platforms.
+
+```ts title="src/index.ts"
+import { defineServer } from "@srvkit/vite";
+
+export default defineServer({
+    fetch: (req: Request): Response => {
+        const url = new URL(req.url);
+
+        if (url.pathname === "/api/hello") {
+            return Response.json({ message: "Hello, World!" });
+        }
+
+        return new Response("Not Found", { status: 404 });
+    },
+});
+```
+
+### Async Handler
+
+Return a promise when your handler performs asynchronous work:
+
+```ts title="src/index.ts"
+import { defineServer } from "@srvkit/vite";
+
+export default defineServer({
+    fetch: async (req: Request): Promise<Response> => {
+        const body = await req.json();
+
+        return Response.json({ received: body });
+    },
+});
+```
+
+### Routing
+
+srvkit does not include a built-in router. Use URL pattern matching, or integrate a framework like [Hono](https://hono.dev) that uses the same Web API `Request`/`Response` interface:
+
+```ts title="src/index.ts"
+import { Hono } from "hono";
+
+const app: Hono = new Hono();
+
+app.get("/", (c): Response => {
+    return c.text("Hello, World!");
+});
+
+app.get("/api/hello", (c): Response => {
+    return c.json({ message: "Hello, World!" });
+});
+
+export default app;
+```
+
+## Error
+
+The `error` handler is called when your `fetch` handler throws an unhandled error. It receives the error and returns a `Response`.
+
+```ts title="src/index.ts"
+import { defineServer } from "@srvkit/vite";
+
+export default defineServer({
+    fetch: (req: Request): Response => {
+        throw new Error("Something went wrong!");
+    },
+    error: (err: unknown): Response => {
+        console.error(err);
+        return new Response("Internal Server Error", { status: 500 });
+    },
+});
+```
+
+If no `error` handler is provided, srvkit returns a generic `500 Internal Server Error` response.
+
+## Middleware
+
+Middleware functions run before your `fetch` handler. They receive the request and a `next` function that calls the next middleware (or the handler if there are no more middleware).
+
+```ts title="src/index.ts"
+import type { ServerMiddleware } from "@srvkit/vite";
+
+import { defineServer } from "@srvkit/vite";
+
+const logger: ServerMiddleware = async (
+    req: Request, 
+    next: () => Promise<Response>,
+): Promise<Response> => {
+    const start: number = performance.now();
+    const res: Response = await next();
+    const ms: number = performance.now() - start;
+
+    console.log(`${req.method} ${req.url} - ${res.status} [${ms.toFixed(1)}ms]`);
+
+    return res;
+};
+
+const auth: ServerMiddleware = async (
+    req: Request, 
+    next: () => Promise<Response>,
+): Promise<Response> => {
+    const token: string | null = req.headers.get("authorization");
+
+    if (!token) return new Response("Unauthorized", { status: 401 });
+
+    return next();
+};
+
+export default defineServer({
+    middleware: [
+        logger,
+        auth,
+    ],
+    fetch: (req: Request): Response => {
+        return new Response("Hello, World!");
+    },
+});
+```
+
+Middleware runs in the order it is defined. If a middleware does not call `next`, the request short-circuits and the `fetch` handler is never called.
+
+## Node.js Support
+
+If you have an existing Node.js HTTP handler, you can adapt it to a Web API handler using `toFetchHandler` from the `node` entry point:
+
+```ts title="src/index.ts"
+import type * as HTTP from "node:http";
+
+import { defineServer } from "@srvkit/vite";
+import { toFetchHandler } from "@srvkit/vite/node";
+
+const nodeHandler = (
+    req: HTTP.IncomingMessage, 
+    res: HTTP.ServerResponse,
+): void => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Hello from Node.js HTTP!");
+};
+
+export default defineServer({
+    fetch: toFetchHandler(nodeHandler),
+});
+```
+
+With Rsbuild, import from `@srvkit/rsbuild/node` instead.

@@ -33,5 +33,28 @@
                 "label": "Rsbuild"
             }
         ]
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "file",
+        "name": "server",
+        "label": "Server"
+    },
+    {
+        "type": "file",
+        "name": "runtimes",
+        "label": "Runtimes"
+    },
+    {
+        "type": "file",
+        "name": "development",
+        "label": "Development"
+    },
+    {
+        "type": "file",
+        "name": "production",
+        "label": "Production"
     }
 ]

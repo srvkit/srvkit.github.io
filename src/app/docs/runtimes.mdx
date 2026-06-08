@@ -1,0 +1,78 @@
+# Runtimes
+
+srvkit is built on [srvx](https://srvx.h3.dev), which provides a universal `serve()` abstraction over the Web API `Request`/`Response` interface. Your server handler works across runtimes without changes — srvkit adapts the module resolution and build output to match each target.
+
+## Setting the runtime
+
+Use the `runtime` option in your plugin configuration:
+
+```ts title="Vite"
+import { defineConfig } from "vite";
+import { srvkit } from "@srvkit/vite/plugin";
+
+export default defineConfig({
+    plugins: [
+        srvkit({
+            runtime: "node",
+        }),
+    ],
+});
+```
+
+```ts title="Rsbuild"
+import { defineConfig } from "@rsbuild/core";
+import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
+
+export default defineConfig({
+    plugins: [
+        pluginSrvkit({
+            runtime: "node",
+        }),
+    ],
+});
+```
+
+The default runtime is `"node"`.
+
+## Supported runtimes
+
+### `node`
+
+The default. Produces output meant to run with Node.js.
+
+```bash
+node ./dist/index.js
+```
+
+The build resolves Node.js builtins and keeps them external. When using `bundle: "standalone"`, only Node.js builtins remain as external imports.
+
+### `deno`
+
+Produce output for the Deno runtime. Module resolution conditions are set for Deno compatibility.
+
+```bash
+deno ./dist/index.js
+```
+
+### `bun`
+
+Produce output for the Bun runtime. Module resolution conditions are set for Bun compatibility.
+
+```bash
+bun ./dist/index.js
+```
+
+### `workerd`
+
+Produce output for Cloudflare Workers. Use with `build.target: "handler"` to generate a handler that the Workers runtime can invoke directly.
+
+```ts
+srvkit({
+    runtime: "workerd",
+    build: {
+        target: "handler",
+    },
+});
+```
+
+The output exports a default `fetch` handler compatible with the Cloudflare Workers `export default` convention.

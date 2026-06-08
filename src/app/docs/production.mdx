@@ -1,0 +1,191 @@
+import { Tabs, Tab } from "@rspress/core/theme";
+
+# Production
+
+srvkit builds your server entry into a production-ready output. The build is handled by your build tool — Vite uses Rolldown, Rsbuild uses Rspack — and srvkit generates a virtual entry that wires your `defineServer` call to the appropriate runtime.
+
+## Running a build
+
+<Tabs>
+    
+<Tab label="Vite">
+```sh
+vite build
+```
+</Tab>
+    
+<Tab label="Rsbuild">
+```sh
+rsbuild build
+```
+</Tab>
+
+</Tabs>
+
+This produces an output file in `./dist/index.js` by default.
+
+## Build targets
+
+srvkit supports two build targets, controlled by `build.target`.
+
+### server
+
+The default target. Produces a self-starting server — the output calls `serve()` directly and begins listening when run.
+
+```ts
+srvkit({
+    build: {
+        target: "server",
+    },
+});
+```
+
+Run the output with your runtime:
+
+```bash
+node ./dist/index.js
+```
+
+### handler
+
+Produces an exported handler for serverless platforms like Vercel, AWS Lambda, or Cloudflare Workers. The output does not call `serve()` — instead, it exports the handler for the platform to invoke.
+
+```ts
+srvkit({
+    build: {
+        target: "handler",
+    },
+});
+```
+
+The output file exports `default` — a handler that platforms can consume directly.
+
+## Bundle modes
+
+Control whether dependencies are included in the output with `build.bundle`.
+
+### external
+
+The default. Keeps all dependencies as `import` statements. The output requires `node_modules` to be present at runtime.
+
+```ts
+srvkit({
+    build: {
+        bundle: "external",
+    },
+});
+```
+
+### standalone
+
+Bundles all dependencies inline. Only Node.js builtins remain external. This produces a self-contained output that can run without `node_modules`.
+
+```ts
+srvkit({
+    build: {
+        bundle: "standalone",
+    },
+});
+```
+
+Use `standalone` when deploying to environments where installing dependencies is not practical — Docker containers, single-file deployments, or edge runtimes.
+
+## Output configuration
+
+### build.outputDir
+
+The directory where the output is written. Defaults to `"./dist"`.
+
+```ts
+srvkit({
+    build: {
+        outputDir: "./build",
+    },
+});
+```
+
+### build.outputFile
+
+The filename of the output within the output directory. Defaults to `"index.js"`.
+
+```ts
+srvkit({
+    build: {
+        outputFile: "server.js",
+    },
+});
+```
+
+### build.minify
+
+Whether to minify the output. Defaults to `false`.
+
+```ts
+srvkit({
+    build: {
+        minify: true,
+    },
+});
+```
+
+## Server target options
+
+These options only apply when `build.target` is `"server"` (the default).
+
+### build.host
+
+The hostname the production server binds to. Defaults to `"localhost"`.
+
+```ts
+srvkit({
+    build: {
+        host: "0.0.0.0",
+    },
+});
+```
+
+### build.port
+
+The port the production server listens on. Defaults to `3000`.
+
+```ts
+srvkit({
+    build: {
+        port: 8080,
+    },
+});
+```
+
+### build.https
+
+HTTPS configuration for the production server. Same shape as the `dev.https` option — accepts `cert`, `key`, and `passphrase`.
+
+```ts
+srvkit({
+    build: {
+        https: {
+            cert: "./certs/prod.crt",
+            key: "./certs/prod.key",
+        },
+    },
+});
+```
+
+### build.publicDir
+
+Path to a directory of static files to serve. Defaults to `"./public"`.
+
+### build.copyPublicDir
+
+Whether to copy the public directory into the output directory during build. Defaults to `false`.
+
+When `true`, the contents of `publicDir` are copied into a directory of the same name inside `outputDir`.
+
+```ts
+srvkit({
+    build: {
+        publicDir: "./public",
+        copyPublicDir: true,
+    },
+});
+```

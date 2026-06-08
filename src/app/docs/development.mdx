@@ -1,0 +1,97 @@
+# Development
+
+srvkit provides a live-reloading dev server that updates in place when your files change. There is no restart — the `fetch`, `error`, and `middleware` handlers are swapped without dropping connections.
+
+## Starting the dev server
+
+When you run the dev command for your build tool, srvkit starts a development server:
+
+```bash title="Vite"
+npx vite dev
+```
+
+```bash title="Rsbuild"
+npx rsbuild dev
+```
+
+The server starts on `localhost:3001` by default and watches your entry file for changes.
+
+## How live reload works
+
+On startup, srvkit reads the default export from your entry file and starts serving requests through the `fetch` handler.
+
+When a file change is detected, the module is re-imported. The new `ServerOptions` are passed to the live server's `update` method, which swaps the `fetch`, `error`, and `middleware` handlers in place. In-flight requests continue on the old handler — no connections are dropped.
+
+There is no WebSocket or browser reload involved. The server itself stays running and picks up the new handlers immediately.
+
+## Configuration
+
+Dev server options are set through the plugin configuration:
+
+```ts title="vite.config.js"
+import { defineConfig } from "vite";
+import { srvkit } from "@srvkit/vite/plugin";
+
+export default defineConfig({
+    plugins: [
+        srvkit({
+            dev: {
+                host: "0.0.0.0",
+                port: 4000,
+            },
+        }),
+    ],
+});
+```
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+import { pluginSrvkit } from "@srvkit/rsbuild/plugin";
+
+export default defineConfig({
+    plugins: [
+        pluginSrvkit({
+            dev: {
+                host: "0.0.0.0",
+                port: 4000,
+            },
+        }),
+    ],
+});
+```
+
+### dev.host
+
+The hostname the dev server binds to. Defaults to `localhost`.
+
+Set to `"0.0.0.0"` to make the server accessible on your local network.
+
+### dev.port
+
+The port the dev server listens on. Defaults to `3001`.
+
+```ts
+srvkit({
+    dev: {
+        port: 8080,
+    },
+});
+```
+
+## HTTPS
+
+To enable HTTPS in development, provide certificate and key paths (or inline PEM content):
+
+```ts
+srvkit({
+    dev: {
+        https: {
+            cert: "./certs/local.crt",
+            key: "./certs/local.key",
+            passphrase: "optional-passphrase",
+        },
+    },
+});
+```
+
+The `passphrase` field is optional and only needed if your private key is encrypted.
