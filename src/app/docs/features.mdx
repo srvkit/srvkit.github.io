@@ -1,0 +1,39 @@
+# Features
+
+## Runtime Agnostic
+
+Powered by [srvx](https://srvx.h3.dev) — write once and run on Node.js, Deno, Bun, and Cloudflare Workers. Set the `runtime` option to target your platform and the build output and module resolution conditions adapt automatically. Default is `node`.
+
+## Framework Agnostic
+
+Servers are defined using standard `Request` and `Response` — no framework-specific APIs. The `defineServer` function provides a type-safe way to configure a `fetch` handler, making your server code portable across frameworks and runtimes.
+
+Node.js frameworks are also supported: use `toFetchHandler` from the `node` entry point to bridge from Node.js HTTP handlers to Web API handlers.
+
+## Vite & Rsbuild Plugins
+
+Drop-in plugins for Vite and Rsbuild — add the plugin to your config and start building. No extra tooling or setup required. Both plugins share the same core options and follow the same conventions, so switching between Vite and Rsbuild requires minimal configuration changes.
+
+## HTTPS & Middleware
+
+Built-in HTTPS support for development and production. Provide `cert` and `key` paths through the `https` option in both `dev` and `build` configuration. Middleware chain is available out of the box via the `middleware` option in `defineServer` — compose request processing into reusable layers.
+
+## Live Dev Server
+
+Hot-reloading dev server that updates on file changes without restarting. The `fetch`, `error`, and `middleware` handlers are swapped in place, preserving connections and state. Dev server host, port, and HTTPS are configurable through the `dev` option.
+
+## Flexible Build Targets
+
+Build as a standalone server or a serverless handler, with external or bundled dependencies:
+
+### Target
+
+- **Server** — produces a self-starting server. The output runs directly with no additional integration needed.
+- **Handler** — produces an exported handler for serverless platforms like Vercel.
+
+### Bundle
+
+- **External** — keeps all dependencies as imports. The output does not bundle any dependencies.
+- **Standalone** — bundles all dependencies inline. Only Node.js builtins remain external. This produces a self-contained output with no external requirements.
+
+Configurable via the `build.target` and `build.bundle` options.
