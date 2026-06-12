@@ -8,8 +8,6 @@
     --rp-home-hero-title-bg: linear-gradient(
         90deg,
         #fe8903 0% /* orange */,
-        #feb86a 30% /* light orange */,
-        #e669fe 65% /* light purple */,
         #cd03fe 100% /* purple */
     );
 
@@ -42,9 +40,7 @@
     --rp-home-hero-title-color: transparent;
     --rp-home-hero-title-bg: linear-gradient(
         90deg,
-        #feb86a 0% /* light orange */,
-        #fe8903 30% /* orange */,
-        #e669fe 65% /* light purple */,
+        #fe8903 0% /* orange */,
         #cd03fe 100% /* purple */
     );
 
