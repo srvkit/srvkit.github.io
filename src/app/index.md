@@ -3,7 +3,8 @@ pageType: home
 
 hero:
     name: srvkit
-    tagline: A toolkit for building JavaScript server applications
+    text: A toolkit for building APIs
+    tagline: Agnostic by design. Flexible by default.
     actions:
         - theme: brand
           text: Quick Start
