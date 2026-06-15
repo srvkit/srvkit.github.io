@@ -1,0 +1,121 @@
+import { Tabs, Tab } from "@rspress/core/theme";
+
+# Environment Variables
+
+srvkit supports **deferred environment variables** — values that are resolved at runtime instead of being hardcoded at build time. This lets you configure different options from environment variables without embedding them in the output bundle.
+
+## How It Works
+
+srvkit uses [Envkist](https://github.com/alpheusday/envkist) under the hood. In **development**, env references resolve immediately by reading `process.env` etc. In **production**, they are injected as runtime-appropriate code that reads the environment variable when the server starts.
+
+## Usage
+
+Import `env` from the plugin entry:
+
+<Tabs>
+
+<Tab label="Vite">
+```ts title="vite.config.ts"
+import { defineConfig } from "vite";
+import { srvkit, env } from "@srvkit/vite/plugin";
+
+export default defineConfig({
+    plugins: [
+        srvkit({
+            build: {
+                host: env.string("HOST"),
+                port: env.number("PORT"),
+            },
+        }),
+    ],
+});
+```
+</Tab>
+
+<Tab label="Rsbuild">
+```ts title="rsbuild.config.ts"
+import { defineConfig } from "@rsbuild/core";
+import { pluginSrvkit, env } from "@srvkit/rsbuild/plugin";
+
+export default defineConfig({
+    plugins: [
+        pluginSrvkit({
+            build: {
+                host: env.string("HOST"),
+                port: env.number("PORT"),
+            },
+        }),
+    ],
+});
+```
+</Tab>
+
+</Tabs>
+
+### env.string
+
+Creates a resolvable string value that reads from an environment variable:
+
+```ts
+env.string("HOST")
+```
+
+### env.number
+
+Creates a resolvable number value that reads from an environment variable:
+
+```ts
+env.number("PORT")
+```
+
+### With Fallback Values
+
+Pass a second argument to set a default when the environment variable is not set:
+
+```ts
+env.string("HOST", "0.0.0.0")
+env.number("PORT", 8080)
+```
+
+### Static Values
+
+You can still use plain strings and numbers — they are fully supported alongside env references:
+
+```ts
+srvkit({
+    build: {
+        host: env.string("HOST", "0.0.0.0"),
+        port: 4000,
+    },
+});
+```
+
+## Supported Options
+
+The following options accept either a static value or an env reference:
+
+| Option                   | Type     | Env Function   |
+| ------------------------ | -------- | -------------- |
+| `dev.host`               | `string` | `env.string()` |
+| `dev.port`               | `number` | `env.number()` |
+| `dev.https.cert`         | `string` | `env.string()` |
+| `dev.https.key`          | `string` | `env.string()` |
+| `dev.https.passphrase`   | `string` | `env.string()` |
+| `build.host`             | `string` | `env.string()` |
+| `build.port`             | `number` | `env.number()` |
+| `build.https.cert`       | `string` | `env.string()` |
+| `build.https.key`        | `string` | `env.string()` |
+| `build.https.passphrase` | `string` | `env.string()` |
+
+## Runtime Behavior
+
+In production builds, srvkit injects runtime-specific code for reading environment variables based on the `runtime` option:
+
+| Runtime   | Generated Code                                  |
+| --------- | ----------------------------------------------- |
+| `node`    | `process.env.HOST`                              |
+| `deno`    | `Deno.env.get("HOST")`                          |
+| `bun`     | `Bun.env.HOST`                                  |
+| `workerd` | `env.HOST` (imported from `cloudflare:workers`) |
+
+When targeting `workerd` (Cloudflare Workers), srvkit automatically injects `import { env } from "cloudflare:workers"` into the output entry.

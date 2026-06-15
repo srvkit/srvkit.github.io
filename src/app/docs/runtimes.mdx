@@ -88,3 +88,5 @@ srvkit({
 ```
 
 The output exports a default `fetch` handler compatible with the Cloudflare Workers `export default` convention.
+
+When using [environment variables](/docs/environment-variables) with the `workerd` runtime, srvkit automatically injects `import { env } from "cloudflare:workers"` into the output entry.

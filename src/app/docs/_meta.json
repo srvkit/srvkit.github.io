@@ -49,6 +49,11 @@
     },
     {
         "type": "file",
+        "name": "environment-variables",
+        "label": "Environment Variables"
+    },
+    {
+        "type": "file",
         "name": "development",
         "label": "Development"
     },
