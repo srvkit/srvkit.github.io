@@ -2,18 +2,21 @@
     "private": true,
     "type": "module",
     "dependencies": {
-        "@rspress/core": "^2.0.13"
+        "@rspress/core": "^2.0.18"
     },
     "devDependencies": {
-        "@apst/biome": "~0.3.1",
+        "@apst/oxfmt": "~0.2.0",
+        "@apst/oxlint": "~0.4.0",
         "@apst/tsconfig": "~0.3.0",
-        "@biomejs/biome": "^2.4.16",
-        "@rspress/plugin-llms": "^2.0.13",
-        "@types/node": "^25.9.2",
+        "@rspress/plugin-llms": "^2.0.18",
+        "@types/node": "^26.1.1",
         "@types/react": "^19.2.17",
         "@types/react-dom": "^19.2.3",
+        "oxfmt": "~0.59.0",
+        "oxlint": "^1.74.0",
+        "oxlint-tsgolint": "^0.25.0",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
-        "typescript": "^6.0.3"
+        "typescript": "^7.0.2"
     }
 }

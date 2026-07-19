@@ -28,6 +28,7 @@ export default defineConfig({
         llmsUI: true,
     },
     plugins: [
+        // LLM support
         pluginLlms(),
     ],
 });

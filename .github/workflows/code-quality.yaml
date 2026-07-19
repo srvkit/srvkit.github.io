@@ -25,5 +25,11 @@ jobs:
             - name: Install typos-cli
               run: brew install typos-cli
 
-            - name: Run linters
-              run: just lint && just lint-biome
+            - name: Run ls-lint
+              run: just ls-lint
+
+            - name: Run typos-cli
+              run: just typos
+
+            - name: Run lint
+              run: just lint

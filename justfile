@@ -1,53 +1,43 @@
 set shell := ["bash", "-cu"]
 set windows-shell := ["pwsh", "-Command"]
 
-tsc := "pnpm exec tsc"
-biome := "pnpm exec biome"
+oxfmt := "pnpm exec oxfmt"
+oxlint := "pnpm exec oxlint"
 rspress := "pnpm exec rspress"
 
 # Default action
 _:
-    just lint
-    just fmt
+    just --list -u
 
 # Install
 i:
     pnpm install
 
+# Upgrade dependencies
+up:
+    pnpm up --interactive --latest --recursive
+
 # Format code
 fmt:
-    {{biome}} check --write .
+    {{oxfmt}}
 
 # Lint code with ls-lint
 ls-lint:
     cd ./src && ls-lint -config ../.ls-lint.yaml
 
 # Lint code with ls-lint
-lslint:
-    just ls-lint
+lslint: ls-lint
 
 # Lint code with typos-cli
 typos:
     typos
 
-# Lint with TypeScript Compiler
-tsc:
-    {{tsc}} --noEmit
-
-# Lint code
+# Lint code and type check
 lint:
-    just lslint
-    just typos
-    just tsc
-
-# Lint code with Biome
-lint-biome:
-    {{biome}} lint .
+    {{oxlint}} --fix --fix-suggestions --fix-dangerously
 
 # Check code
-check:
-    just fmt
-    just lint
+check: fmt ls-lint typos lint
 
 # Start development server
 dev:
@@ -66,8 +56,7 @@ clean-linux:
     rm -rf ./dist
 
 # Clean builds (macOS)
-clean-macos:
-    just clean-linux
+clean-macos: clean-linux
 
 # Clean builds (Windows)
 clean-windows:
@@ -84,8 +73,7 @@ clean-all-linux:
     rm -rf ./node_modules
 
 # Clean everything (macOS)
-clean-all-macos:
-    just clean-all-linux
+clean-all-macos: clean-all-linux
 
 # Clean everything (Windows)
 clean-all-windows:

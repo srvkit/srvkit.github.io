@@ -128,20 +128,22 @@ import type { ServerMiddleware } from "@srvkit/vite";
 import { defineServer } from "@srvkit/vite";
 
 const logger: ServerMiddleware = async (
-    req: Request, 
+    req: Request,
     next: () => Promise<Response>,
 ): Promise<Response> => {
     const start: number = performance.now();
     const res: Response = await next();
     const ms: number = performance.now() - start;
 
-    console.log(`${req.method} ${req.url} - ${res.status} [${ms.toFixed(1)}ms]`);
+    console.log(
+        `${req.method} ${req.url} - ${res.status} [${ms.toFixed(1)}ms]`,
+    );
 
     return res;
 };
 
 const auth: ServerMiddleware = async (
-    req: Request, 
+    req: Request,
     next: () => Promise<Response>,
 ): Promise<Response> => {
     const token: string | null = req.headers.get("authorization");
@@ -152,10 +154,7 @@ const auth: ServerMiddleware = async (
 };
 
 export default defineServer({
-    middleware: [
-        logger,
-        auth,
-    ],
+    middleware: [logger, auth],
     fetch: (req: Request): Response => {
         return new Response("Hello, World!");
     },
@@ -175,7 +174,7 @@ import { defineServer } from "@srvkit/vite";
 import { toFetchHandler } from "@srvkit/vite/node";
 
 const nodeHandler = (
-    req: HTTP.IncomingMessage, 
+    req: HTTP.IncomingMessage,
     res: HTTP.ServerResponse,
 ): void => {
     res.writeHead(200, { "Content-Type": "text/plain" });

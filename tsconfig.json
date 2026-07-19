@@ -1,17 +1,11 @@
 {
     "extends": "@apst/tsconfig",
     "compilerOptions": {
-        "lib": [
-            "DOM",
-            "ES2015"
-        ],
+        "lib": ["DOM", "ES2015"],
         "jsx": "react-jsx",
         "noEmit": true
     },
-    "include": [
-        "src",
-        "rspress.config.ts"
-    ],
+    "include": ["./src/**/*", "./rspress.config.ts"],
     "mdx": {
         "checkMdx": true
     }

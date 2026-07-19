@@ -57,7 +57,7 @@ export default defineConfig({
 Creates a resolvable string value that reads from an environment variable:
 
 ```ts
-env.string("HOST")
+env.string("HOST");
 ```
 
 ### env.number
@@ -65,7 +65,7 @@ env.string("HOST")
 Creates a resolvable number value that reads from an environment variable:
 
 ```ts
-env.number("PORT")
+env.number("PORT");
 ```
 
 ### With Fallback Values
@@ -73,8 +73,8 @@ env.number("PORT")
 Pass a second argument to set a default when the environment variable is not set:
 
 ```ts
-env.string("HOST", "0.0.0.0")
-env.number("PORT", 8080)
+env.string("HOST", "0.0.0.0");
+env.number("PORT", 8080);
 ```
 
 ### Static Values
