@@ -1,0 +1,33 @@
+# Presets
+
+Presets are option-transformer functions that set sensible defaults for a specific target platform. Pass a preset's return value as your plugin options to avoid manually configuring every option.
+
+Currently available for Vite via the `/presets` entry point.
+
+## Cloudflare Workers
+
+This preset can be used when building for Cloudflare Workers.
+
+```ts title="vite.config.ts"
+import { defineConfig } from "vite";
+import { srvkit } from "@srvkit/vite/plugin";
+import { cloudflareWorkersPreset } from "@srvkit/vite/presets";
+
+export default defineConfig({
+    plugins: [srvkit(cloudflareWorkersPreset())],
+});
+```
+
+It is possible to override the preset options:
+
+```ts title="vite.config.ts"
+srvkit(
+    cloudflareWorkersPreset({
+        build: {
+            public: {
+                to: "./assets",
+            },
+        },
+    }),
+);
+```

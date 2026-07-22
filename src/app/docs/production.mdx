@@ -142,6 +142,36 @@ srvkit({
 });
 ```
 
+### build.public
+
+Configure static file handling for the build output. These options apply to both `server` and `handler` build targets.
+
+#### build.public.copy
+
+Whether to copy the public directory into the output directory during build. Defaults to `false`.
+
+When `true`, the contents of the source directory (set by `from`) are copied into the destination directory (set by `to`) inside `outputDir`.
+
+#### build.public.from
+
+The source directory path for static files. Defaults to `"./public"`.
+
+#### build.public.to
+
+The destination directory for the public files inside the output directory. Defaults to the value of `from`.
+
+```ts
+srvkit({
+    build: {
+        public: {
+            copy: true,
+            from: "./public",
+            to: "./static",
+        },
+    },
+});
+```
+
 ## Server target options
 
 These options only apply when `build.target` is `"server"` (the default).
@@ -181,25 +211,6 @@ srvkit({
             cert: "./certs/prod.crt",
             key: "./certs/prod.key",
         },
-    },
-});
-```
-
-### build.publicDir
-
-Path to a directory of static files to serve. Defaults to `"./public"`.
-
-### build.copyPublicDir
-
-Whether to copy the public directory into the output directory during build. Defaults to `false`.
-
-When `true`, the contents of `publicDir` are copied into a directory of the same name inside `outputDir`.
-
-```ts
-srvkit({
-    build: {
-        publicDir: "./public",
-        copyPublicDir: true,
     },
 });
 ```
